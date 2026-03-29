@@ -17,3 +17,5 @@ def get_user(id:int):# id directly taken from url (required)
 @app.get("/search/")#query parameter 
 def search(q:str =None):
     return{"query:q"}#optionle 
+
+#test
