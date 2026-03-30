@@ -1,9 +1,17 @@
 # import fastapi clall from mfasapi module
 from fastapi import FastAPI
-
+from pydantic import BaseModel,Field
+from typing import Optional
 #create instace of fastapi
 #app object is used to define all api routes
 app =FastAPI()
+
+class Product(BaseModel):
+    name:str =Field(...,min_length=3)
+    price:float =Field(...,gt=0)
+    is_available:bool
+    description:Optional[str]=None
+    
 
 #route home
 @app.get("/")
@@ -19,3 +27,7 @@ def search(q:str =None):
     return{"query:q"}#optionle 
 
 #test
+
+@app.post("/product",response_model=Product)
+def create_product(product:Product): #api data receive data from request body and validate using pydantic model
+    return product
