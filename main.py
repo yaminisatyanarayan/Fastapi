@@ -2,6 +2,7 @@
 from fastapi import FastAPI,Depends
 from pydantic import BaseModel,Field
 from typing import Optional
+from routers import user
 from fastapi.middleware.cors import CORSMiddleware
 #create instace of fastapi
 #app object is used to define all api routes
@@ -13,6 +14,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
 
 class Product(BaseModel):
     name:str =Field(...,min_length=3)
@@ -50,3 +52,5 @@ async def log_requests(request, call_next):
     response = await call_next(request)
     print("Response sent")
     return response
+
+app.include_router(user.router)
